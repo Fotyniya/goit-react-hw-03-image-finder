@@ -1,5 +1,7 @@
 import { Component } from "react";
 import toast from 'react-hot-toast';
+import { BsSearch } from 'react-icons/bs';
+import { SearchContainer, SearchFormButton, SearchForm, SearchFormInput, SearchFormLabel } from "../Searchbar/Searchbar.styled"
 
 export class Searchbar extends Component {
     state = {
@@ -12,22 +14,23 @@ export class Searchbar extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(!this.state.value){
+        if(!this.state.value.trim()){
           return toast.error('This is an error! Enter a search query!');
         }
-        this.props.onSearch(this.state.value);
+        this.props.onSearch(this.state.value.trim());
         this.setState({value: ''})
     };
 
     render() {
         return(
-        <div>
-            <form onSubmit = {this.handleSubmit} className="form">
-            <button type="submit" className="button">
-            <span className="button-label">Search</span>
-            </button>
+        <SearchContainer>
+            <SearchForm onSubmit = {this.handleSubmit} className="form">
+            <SearchFormButton type="submit" className="button">
+                <BsSearch />
+            <SearchFormLabel className="button-label">Search</SearchFormLabel>
+            </SearchFormButton>
 
-            <input
+            <SearchFormInput
             className="input"
             type="text"
             autoComplete="off"
@@ -36,8 +39,8 @@ export class Searchbar extends Component {
             value = {this.state.value}
             onChange = {this.handleChange}
             />
-            </form>
-        </div>
+            </SearchForm>
+        </SearchContainer>
         )
     }
 }
