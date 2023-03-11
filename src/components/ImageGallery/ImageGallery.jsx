@@ -49,8 +49,7 @@ loadGallery = () => {
 loadMore = () => {
     this.setState((prevState) => ({
       page: prevState.page + 1
-    }
-    ));
+    }));
   };
 
 render() {
