@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import axios from 'axios';
-//import { nanoid } from 'nanoid'
 
 import { Loader } from  '../Loader'
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
@@ -9,22 +8,32 @@ import {Gallery} from '../ImageGallery/ImageGallery.styled';
 
 const API_KEY = '32817596-3735423159e4b61dcdcaf4a45';
 const BASE_URL = 'https://pixabay.com/api/';
+const InitialState = {
+    data: '',
+    totalHits: 0,
+    isLoading: false,
+    error: null,
+    page: 1,
+};
 
 export class ImageGallery extends Component{
     state = {
         data: '',
         totalHits: 0,
         isLoading: false,
-        errorMsg: '',
+        error: null,
         page: 1,
     };
 
 componentDidUpdate(prevProps, prevState) {
+    
     if (prevProps.textSearch !== this.props.textSearch) {
-        this.setState({ page: 1, data: ''});
+        this.setState({...InitialState});
         this.loadGallery();
-    } else if (prevState.page !== this.state.page){
-        this.loadGallery();
+    } else {
+        if (prevState.page !== this.state.page) {
+            this.loadGallery(); 
+        }
     }
 };
 
@@ -36,11 +45,12 @@ loadGallery = () => {
         .then((response) => {
             
             this.setState((prevState) => ({
+                totalHits: response.data.totalHits,
                 data: [...prevState.data, ...response.data.hits], 
             }))
         })
         .catch((error) => this.setState({
-            errorMsg: error
+            error: Error
           }))
         .finally(() => {
             this.setState({isLoading: false})
@@ -57,15 +67,15 @@ render() {
     return (
         <>
         {this.state.isLoading && <Loader />}
-        {this.state.data && <Gallery>
-        {this.state.data.map(item => 
+        <Gallery>
+        {this.state.data && this.state.data.map(item => 
             <li key = {item.id}>
             <ImageGalleryItem item = {item} />  
             </li>
         )}
-        {this.state.data && <Button onClick = {this.loadMore} />}
-        </Gallery>}
         
+        </Gallery>
+        {this.state.totalHits > 0 && <Button onClick = {this.loadMore} />}
         </>
     )}
 }
