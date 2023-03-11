@@ -9,7 +9,7 @@ export class App extends Component {
   };
 
   handleSubmit = (textSearch) => {
-    this.setState({textSearch})
+    this.setState({textSearch});
   };
 
   render(){

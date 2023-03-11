@@ -5,34 +5,17 @@ import {Image} from '../ImageGalleryItem/ImageGalleryItem.styled'
 export class ImageGalleryItem extends Component {
     state = {
         isModalOpen: false,
-        keyCode: '',
     };
 
     openModal = () => {
         this.setState( {isModalOpen: true});
         window.addEventListener( 'keydown' , (event) => {
-            console.log(event.code);
-            this.setState({keyCode: event.code})})
+            if (event.code === "Escape"){ this.setState({isModalOpen: false})}})
     };
-
-    // closeModal = () => {
-    //     this.setState( 
-    //     {isModalOpen: false});}
-
-    // closeModalByEsc = () => {
-    //     if ((this.state.isModalOpen) || (this.state.keyCode === "Escape")){
-    //         this.setState({isModalOpen: false})
-    //     }
-    //        return
-    //     }
+    
     closeModal = () => {
-             if ((this.state.isModalOpen)){
-                if (this.state.keyCode === "Escape"){
-                    this.setState({isModalOpen: false})
-                } this.setState({isModalOpen: false})
-             }
-                
-             }   
+             this.setState({isModalOpen: false})
+             }  
 
     render (){
         const {item} = this.props;

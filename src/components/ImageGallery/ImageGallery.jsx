@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import axios from 'axios';
+//import { nanoid } from 'nanoid'
 
 import { Loader } from  '../Loader'
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
@@ -18,16 +19,14 @@ export class ImageGallery extends Component{
         page: 1,
     };
 
-componentDidMount() {
-    this.loadGallery();
-}
-
 componentDidUpdate(prevProps, prevState) {
-    if ((prevProps.textSearch !== this.props.textSearch) || 
-    (prevState.page !== this.state.page)) {
-      this.loadGallery();
+    if (prevProps.textSearch !== this.props.textSearch) {
+        this.setState({ page: 1, data: ''});
+        this.loadGallery();
+    } else if (prevState.page !== this.state.page){
+        this.loadGallery();
     }
-}
+};
 
 loadGallery = () => {
     const {page} = this.state;
@@ -35,11 +34,13 @@ loadGallery = () => {
     
     axios.get(`${BASE_URL}?q=${this.props.textSearch}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
         .then((response) => {
-            this.setState({data: response.data.hits, totalHits: response.data.totalHits})
-            console.log (response.data.totalHits)
+            
+            this.setState((prevState) => ({
+                data: [...prevState.data, ...response.data.hits], 
+            }))
         })
         .catch((error) => this.setState({
-            errorMsg: 'Error while loading data. Try again later.'
+            errorMsg: error
           }))
         .finally(() => {
             this.setState({isLoading: false})
@@ -48,7 +49,7 @@ loadGallery = () => {
 
 loadMore = () => {
     this.setState((prevState) => ({
-      page: prevState.page + 1
+        page: prevState.page + 1
     }));
   };
 
@@ -56,14 +57,15 @@ render() {
     return (
         <>
         {this.state.isLoading && <Loader />}
-        <Gallery>
-        {this.state.data && this.state.data.map(item => 
+        {this.state.data && <Gallery>
+        {this.state.data.map(item => 
             <li key = {item.id}>
             <ImageGalleryItem item = {item} />  
             </li>
         )}
-        </Gallery>
         {this.state.data && <Button onClick = {this.loadMore} />}
+        </Gallery>}
+        
         </>
     )}
 }
