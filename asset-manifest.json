@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/goit-react-hw-03-image-finder/static/js/main.2945a64f.js",
+    "main.js": "/goit-react-hw-03-image-finder/static/js/main.dda5444e.js",
     "index.html": "/goit-react-hw-03-image-finder/index.html",
-    "main.2945a64f.js.map": "/goit-react-hw-03-image-finder/static/js/main.2945a64f.js.map"
+    "main.dda5444e.js.map": "/goit-react-hw-03-image-finder/static/js/main.dda5444e.js.map"
   },
   "entrypoints": [
-    "static/js/main.2945a64f.js"
+    "static/js/main.dda5444e.js"
   ]
 }
