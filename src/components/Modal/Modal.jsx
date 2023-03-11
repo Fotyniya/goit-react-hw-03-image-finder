@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { Overlay, ModalWindow, LargeImg, Btn } from "../Modal/Modal.styled";
 
@@ -18,4 +19,12 @@ export class Modal extends Component {
         </ModalWindow>
     </Overlay>
     </>}
+};
+
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    content: PropTypes.shape({
+        largeImageURL: PropTypes.string.isRequired,
+        tags: PropTypes.string.isRequired,
+    }).isRequired,
 }

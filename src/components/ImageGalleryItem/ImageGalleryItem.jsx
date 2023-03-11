@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from '../Modal/Modal'
 import {Image} from '../ImageGalleryItem/ImageGalleryItem.styled'
 
@@ -25,4 +26,11 @@ export class ImageGalleryItem extends Component {
             {this.state.isModalOpen && <Modal onClose = {this.closeModal} content = {this.props.item} />}
         </>   
     } 
+}
+
+ImageGalleryItem.propTypes = {
+    item: PropTypes.shape({
+        webformatURL: PropTypes.string.isRequired,
+        tags: PropTypes.string.isRequired,
+    }).isRequired,
 }

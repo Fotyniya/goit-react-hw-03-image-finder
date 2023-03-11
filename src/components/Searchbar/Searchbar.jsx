@@ -1,4 +1,5 @@
 import { Component } from "react";
+import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { BsSearch } from 'react-icons/bs';
 import { SearchContainer, SearchFormButton, SearchForm, SearchFormInput, SearchFormLabel } from "../Searchbar/Searchbar.styled"
@@ -43,4 +44,8 @@ export class Searchbar extends Component {
         </SearchContainer>
         )
     }
+};
+
+Searchbar.propTypes = {
+    onSearch: PropTypes.func.isRequired,
 }
