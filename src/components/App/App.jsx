@@ -17,7 +17,7 @@ export class App extends Component {
       <div>
        <Toaster/>
        <Searchbar onSearch = {this.handleSubmit}/>
-       <ImageGallery textSearch = {this.state.textSearch} page = {1} />
+       <ImageGallery textSearch = {this.state.textSearch} />
       </div>
     );
   }
