@@ -32,7 +32,6 @@ export class Searchbar extends Component {
             </SearchFormButton>
 
             <SearchFormInput
-            className="input"
             type="text"
             autoComplete="off"
             autoFocus

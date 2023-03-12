@@ -10,42 +10,31 @@ import {Gallery} from '../ImageGallery/ImageGallery.styled';
 
 const API_KEY = '32817596-3735423159e4b61dcdcaf4a45';
 const BASE_URL = 'https://pixabay.com/api/';
+let page = 1;
+const perPage = 12;
+let data = [];
+let totalHits = 0;
 
 export class ImageGallery extends Component{
     state = {
-        data: '',
-        totalHits: 0,
         isLoading: false,
         error: null,
-        perPage: 12,
-        page: 1, 
     };
 
 componentDidUpdate(prevProps, prevState) {
-    if ((prevState.textSearch !== this.props.textSearch)&&(prevState.page !== this.state.page)){
-        alert ('1 new search')
-        this.setState({data: [], page: 1,});
+    if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page === this.state.page)){
+      
+        data = []
+        page = 1
         setTimeout(()=>{
             this.loadGallery();
         }, 500)
-    } else if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page === this.state.page)){
-        alert ('2 new search')
-        this.setState({data: [], page: 1, textSearch: this.props.textSearch});
-        setTimeout(()=>{
-            this.loadGallery();
-    }, 500)
-        
-    } else if (
-        prevState.page !== this.state.page) {
-            alert ('3 page')
-        setTimeout(()=>{
-            this.loadGallery();
-    }, 500)
-    } 
-    }    
+    }
+} 
+
 
 loadGallery = () => {
-    const {page, perPage} = this.state;
+   
     this.setState({isLoading: true});
     
     axios.get(`${BASE_URL}?q=${this.props.textSearch}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`)
@@ -54,10 +43,8 @@ loadGallery = () => {
                 this.setState ({ error: "Error! Try again!" });
                 return toast.error("Error! Try again!");
             }
-            this.setState((prevState) => ({
-                totalHits: response.data.totalHits,
-                data: [...prevState.data, ...response.data.hits], 
-            }));
+                data = [...data, ...response.data.hits] 
+                totalHits = response.data.totalHits
         })
         .catch((error) => this.setState({error}))
         .finally(() => {
@@ -66,13 +53,12 @@ loadGallery = () => {
 };
 
 loadMore = () => {
-    this.setState((prevState) => ({
-        page: prevState.page + 1
-    }));
+    page++
+    this.loadGallery()
   };
 
 render() {
-    const {data, isLoading, totalHits, page, perPage} = this.state;
+    const { isLoading } = this.state;
     return (
         <>
         {isLoading && <Loader />}
