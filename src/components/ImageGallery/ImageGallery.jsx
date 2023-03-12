@@ -20,28 +20,30 @@ export class ImageGallery extends Component{
         perPage: 12,
         page: 1, 
     };
-    
+
 componentDidUpdate(prevProps, prevState) {
-   
-    if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page !== this.state.page)){
+    if ((prevState.textSearch !== this.props.textSearch)&&(prevState.page !== this.state.page)){
+        alert ('1 new search')
         this.setState({data: [], page: 1,});
         setTimeout(()=>{
             this.loadGallery();
-    }, 500)
+        }, 500)
     } else if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page === this.state.page)){
-        this.setState({data: [], page: 1,});
+        alert ('2 new search')
+        this.setState({data: [], page: 1, textSearch: this.props.textSearch});
         setTimeout(()=>{
             this.loadGallery();
     }, 500)
         
-    } else if (prevState.page !== this.state.page) {
+    } else if (
+        prevState.page !== this.state.page) {
+            alert ('3 page')
         setTimeout(()=>{
             this.loadGallery();
     }, 500)
     } 
-    
-};    
-   
+    }    
+
 loadGallery = () => {
     const {page, perPage} = this.state;
     this.setState({isLoading: true});
