@@ -25,13 +25,19 @@ componentDidUpdate(prevProps, prevState) {
    
     if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page !== this.state.page)){
         this.setState({data: [], page: 1,});
-        this.loadGallery();
+        setTimeout(()=>{
+            this.loadGallery();
+    }, 500)
     } else if ((prevProps.textSearch !== this.props.textSearch)&&(prevState.page === this.state.page)){
         this.setState({data: [], page: 1,});
-        this.loadGallery();
+        setTimeout(()=>{
+            this.loadGallery();
+    }, 500)
         
     } else if (prevState.page !== this.state.page) {
-        this.loadGallery();
+        setTimeout(()=>{
+            this.loadGallery();
+    }, 500)
     } 
     
 };    
